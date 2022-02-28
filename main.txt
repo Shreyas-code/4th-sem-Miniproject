@@ -1,0 +1,341 @@
+package MiniProject;
+import java.sql.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class shop extends MyMiniPro{
+	String[] goods = new String[100];
+	int no_of_items=0;
+		double[] a= new double[5];
+		public int i=0;
+	shop() {
+		System.out.println("Welocme To The Shop");
+//	        no_of_items = 0;
+//	goods = new String[100];
+//		nat = this.ent2;
+		
+	}
+
+	void addBook1(ArrayList<String> ent1) {
+		 ent1 = new ArrayList<String>();
+		Scanner reader = new Scanner(System.in);
+		int n = 0;
+		while(n<5){
+			ent1.add(reader.nextLine());
+			System.out.print(ent1.toString());
+			n=n+1;
+		}
+	}
+	 void addBook(String good){
+	        goods[no_of_items] = good;
+	        no_of_items++;
+	        System.out.println(good+ " has been added!");
+	    }
+
+	 void addPrice(){
+		 a[no_of_items] =  ent2;
+		 i++;
+		 System.out.println("The price for the item chosen is: " + ent2);
+	 }
+	 
+
+	 void total() {
+		 System.out.print("Your items are");
+		 for(int i=0;i<no_of_items;i++) {
+			System.out.println(goods[i]);
+		}
+	 }
+	 
+	 void pricetotal() {
+		 System.out.print("Your various items prices are :");
+		 for(i=0;i<no_of_items;i++) {
+			 System.out.println(a[i]);
+		 }
+	 }
+	 
+	 public int add() {
+		 int sum = 0;
+		for(i=0;i<no_of_items;i++) {
+			sum = (int) (sum + a[i]);
+		}
+		return sum;
+	 }
+
+
+	    double discount(double ent2) {
+	    	double  dis,amount = 0,markedprice,s;
+//	    if(entt == "Soap") {
+//		markedpric;
+	    	if(ent2>300) {
+	    		dis=25;  // 25 mean 25%			
+		    	
+		    	System.out.println("markedprice= "+this.ent2);
+		    	
+		    	System.out.println("discount rate="+dis);
+		    	
+		    	s=100-dis;
+		    	
+		    	this.ent2=  (s*this.ent2)/100;
+
+		    	return ent2;
+	    	}
+	    	else {
+
+	    		return ent2;
+}
+}	    	
+}
+public class MyMiniPro {
+
+	public static double ent2; 
+	public static double ent3;
+	public static String ent1;
+	
+	public static void main(String[] args) throws ClassNotFoundException, SQLException{
+		shop emp = new shop();
+		medicine emp1 = new medicine();
+//		Discount emp2 = new Discount();
+//		emp.shop();
+		int x;
+		Scanner ent = new Scanner(System.in);
+		System.out.print("enter your name");
+		String name1=ent.next();
+//		System.out.println("plese enter no. products you want");
+//		int n=ent.nextInt();
+		Scanner enr = new Scanner(System.in);
+		String keepShopping = "y";
+		Connection con = null;
+		ResultSet rs =  null;
+		PreparedStatement stmt = null;
+		int ITEM_NO = 0;
+		int PRICE = 0 ;
+		String PRODUCT = null;
+		System.out.print("Your choices are!!!");
+		System.out.print("1.Retailor\t 2.Grocery\t 3.Shoes shop\n ");
+		try {
+//			String ent1;
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","oracal");  
+			int data ;
+			int price;
+			String name;
+		do {
+			FileWriter myObj = new FileWriter("filename.txt",true);
+			System.out.println("plese enter a value");
+			x = ent.nextInt();
+			Scanner scan1 = new Scanner(System.in);			
+
+		if(x==1) {
+			emp1.shop_items();
+			System.out.println("plese enter your favouured item for grocery");
+			ent1 = enr.nextLine();
+//			if(ent1 == "Ocra") {
+			System.out.println("plese enter your favouured itmes price");
+			ent2 = ent.nextInt();
+			System.out.print(emp.discount(ent2));
+			emp.addPrice();
+			System.out.println("plese enter the item no.");
+			ent3=ent.nextInt();
+//			System.out.print(emp.discount(ent1,ent2));
+//			emp2.discount(ent1,ent2);
+//			}
+			
+			String sql = "INSERT INTO AMP8 (PRODUCT,PRICE,ITEM_NO) VALUES (?, ?, ?)";
+//			String sql = "INSERT INTO AMP7 (name,DATA) VALUES (?, ?)";
+			stmt=con.prepareStatement(sql);  
+
+			stmt.setString(1, ent1);
+			stmt.setInt(2,(int) ent2);
+//			changed
+			stmt.setInt(3,(int) ent3);
+			int rowsInserted = stmt.executeUpdate();
+			if (rowsInserted > 0) {
+			    System.out.println("A new user was inserted successfully!");
+			}
+//			emp.addBook1(ent1);
+			emp.addBook(ent1);
+			myObj.write(ent1);
+			myObj.close();
+	System.out.println("Successfully wrote to the file.");
+		}
+		else if(x==2){
+			emp1.grocery_items();
+			System.out.println("plese enter your favouured item");
+			ent1 = enr.nextLine();
+//			if(ent4=="Soap") {
+			System.out.println("plese enter your favouured itmes price");
+			ent2 = ent.nextInt();
+//			System.out.print(emp.discount(ent1,ent2));
+//			emp2.discount(ent1,ent2);
+			System.out.println(emp.discount(ent2));
+			System.out.println("plese enter the item no.");
+			ent3=ent.nextInt();
+			emp.addPrice();
+//			}
+			String sql = "INSERT INTO AMP8 (PRODUCT,PRICE,ITEM_NO) VALUES (?, ?, ?)";
+//			String sql = "INSERT INTO AMP7 (name,DATA) VALUES (?, ?)";
+			stmt=con.prepareStatement(sql);  
+
+			stmt.setString(1, ent1);
+			stmt.setInt(2,(int) ent2);
+			stmt.setInt(3,(int) ent3);
+			int rowsInserted = stmt.executeUpdate();
+			if (rowsInserted > 0) {
+			    System.out.println("A new user was inserted successfully!");
+			}
+			emp.addBook(ent1);
+			myObj.write(ent1);
+				myObj.close();
+				
+				System.out.println("Successfully wrote to the file.");
+		}
+		else {
+			System.out.println("wrong info");
+		}
+
+		System.out.println("do you want keep shopping");
+		keepShopping = enr.nextLine();
+		
+	}while(keepShopping.equalsIgnoreCase( "y" ) );
+
+		emp.total();
+		emp.pricetotal();
+		System.out.println("Your Total bill is: "+emp.add());
+	}
+		catch (IOException e) {
+		System.out.println("An error occurred.");
+		e.printStackTrace();
+	}
+	}
+}	
+
+//WE WILL INCLUDE AN ARRAYLIST HERE WHERE WE WILL INSERT ALL THE VALUES
+//THEN WE WILL SEE THE SIZE
+//THEN WE WILL ASK WHETHER HE WISHEWW TO CHANGE HIS AVAILABKEE OPTIONS	
+//}
+//class grocery{
+//	void veggies() {
+//		System.out.println("you have followinng options");
+//		System.out.println("1.For Retailer You Have following items");
+//		System.out.println("1.Maggie");
+//		System.out.println("2.Kurkure");
+//		System.out.println("3.Nachoes");
+//		System.out.println("4.Soap");
+//System.out.println("5.Dish Washer");
+//	}
+////	
+//}
+//class medicine extends grocery{
+//	void med() {
+//	System.out.println("2.For Grocery You Have following items");
+//	System.out.println("1.Potato");
+//	System.out.println("2.Ocra");
+//	System.out.println("3.For Shoes You Have following items");
+//	System.out.println("3.Slippers");
+//	System.out.println("3.Office shoes");
+//	System.out.println("3.Crocs");
+//	}
+//}
+
+//	}
+	
+//	}
+//while(n!=0) {
+//System.out.println("you have followinng options");
+//System.out.println("1.For Retailer You Have following items");
+//System.out.println("1.Maggie");
+//System.out.println("2.Kurkure");
+//System.out.println("3.Nachoes");
+//System.out.println("4.Soap");
+//System.out.println("5.Dish Washer");
+//System.out.println("2.For Grocery You Have following items");
+//System.out.println("1.Potato");
+//System.out.println("2.Ocra");
+//System.out.println("3.For Shoes You Have following items");
+//System.out.println("3.Slippers");
+//System.out.println("3.Office shoes");
+//System.out.println("3.Crocs");
+//
+//
+//if(ent1 == "Soap") {
+//h=10;
+//a[i]=h;
+//System.out.print("For Soap the price is: "+a[i]);
+//i++;
+//}
+//			if(ent1=="Ocra") {
+//				h=12;
+//				a[i]=h;
+//				System.out.print("For Ocra the price is: "+a[i]);
+//				i++;
+//			}
+//			else if(ent1=="Potato") {
+//				h=10;
+//				a[i]=h;
+//				System.out.print("For Potato the price is: "+a[i]);
+//				i++;
+//			}
+//			else {
+//				h=10;
+//				a[i]=h;
+//				System.out.print("For rest item the peice is: "+a[i]);
+//				i++;
+//			}
+//switch(x) {
+//
+//case 1:
+////System.out.print("plese enter your favouured item");
+////String ent1 = enr.nextLine();
+//emp.addBook("hjk");
+//
+////myObj.write(emp.med());
+////myObj.close();
+////System.out.println("Successfully wrote to the file.");
+//
+//
+//break;
+//case 2:
+//System.out.println("plese enter your favouured item");
+//String ent2 = enr.nextLine();
+//emp.addBook(ent2);
+//
+////myObj.write(emp.veggies());
+////myObj.close();
+////System.out.println("Successfully wrote to the file.");
+//break;
+//
+//default:
+//System.out.println("wrong");
+//break;
+//}
+//n=n-1;
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
